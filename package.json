@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon index.js"
   },
+  "keywords": [],
   "repository": "https://github.com/amandapascon/UnhasFeitas-server.git",
   "author": "Amanda <amanda.pascon@dcomp.sor.ufscar.br>",
   "license": "MIT",

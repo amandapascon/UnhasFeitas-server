@@ -5,14 +5,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    phone: {
+    description: {
         type: String,
         required: true,
     },
-    password: {
-        type: String,
+    duration: {
+        type: Number,
         required: true,
     },
 })
 
-mongoose.model('User', UserSchema)
+mongoose.model('Package', UserSchema)
