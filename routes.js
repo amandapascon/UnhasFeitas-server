@@ -6,8 +6,9 @@ routes.get('/user', userController.show)
 routes.post('/user', userController.new)
 
 const packageController = require('./controllers/packageController')
-routes.get('/package', packageController.showHistoric)
 routes.post('/package', packageController.new)
 routes.delete('/package', packageController.del)
+routes.get('/package', packageController.show)
+routes.get('/package/:_id', packageController.curruntPack)
 
 module.exports=routes

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const { text, json } = require('express')
+const { request } = require('http')
 const Package = mongoose.model('Package')
 
 module.exports = {
@@ -7,14 +9,21 @@ module.exports = {
 
     //rota para user logado cancelar plano ativo
 
-    //rota para exibir historico do user logado
+    //rota para exibir historico do user logado (5 ultimos planos)
 
     //checkin
     
-    //descricao do plano atual do user logado
-    async showHistoric (req, res){
-        const historic = await Package.find()
-        return res.json(historic)
+    //rota para exibir o plano atual do user logado (posso pegar a descrição daqui)
+    async curruntPack (req, res){
+        const id = reque.params
+        const package = Package.find({_id: id})
+        return res.json(package)
+    },
+
+    //rota para exibir todos os planos cadastrados
+    async show (req, res){
+        const package = await Package.find()
+        return res.json(package)
     },
     
     //criar novo pacote (Admin)
