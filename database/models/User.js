@@ -13,6 +13,18 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    packs: {
+        type: Array,
+        required: false,
+    },
+    usageTime: {
+        type: Number,
+        required: false,
+    },
+    role: {
+        type: String,
+        required: false
+    }
 })
 
 mongoose.model('User', UserSchema)

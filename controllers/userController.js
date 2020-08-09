@@ -1,4 +1,6 @@
-const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose');
+const { use } = require('../routes');
 const User = mongoose.model('User')
 
 module.exports = {
@@ -12,11 +14,20 @@ module.exports = {
     async new(req, res){
         const user = await User.create(req.body)
         return res.json(user)
-    }
+    },
 
     //rota para logar usuario
+    //verificar se está funcionando
+    async login (req, res){
+        const {phone, password} = req.body
+        
+        const user = await User.findOne({phone: phone})
 
-    //rota para deslogar usuario
-
-
+        if(user && (password == user.password)){
+            const token = jwt.sign({name: user.name, role: user.role}, process.env.SECRET)
+            return res.json({token, name: user.name, admin: user.role == 'admin'})
+        }else{
+            return res.json({err: 'auth'})
+        }
+    }
 }
