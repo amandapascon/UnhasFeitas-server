@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose');
-const { use } = require('../routes');
+
 const User = mongoose.model('User')
 
 module.exports = {

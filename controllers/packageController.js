@@ -1,23 +1,34 @@
 const mongoose = require('mongoose')
-const { text, json } = require('express')
-const { request } = require('http')
+const { all } = require('../routes')
+const { connect } = require('http2')
+
 const Package = mongoose.model('Package')
 const User = mongoose.model('User')
 
 module.exports = {
 
-    //rota para user logado ativar novo plano
-    //cadastrar no comeco do array, para poder pegar o array[0] como o primeiro
+    //rota para user logado ativar novo plano (push, insere no final)
     async activate (req, res){
-        const {id} = req.params
+        const {id_user, id_pack} = req.params
 
-        let pack = await Package.findOne({_id: id})
+        const update = {'$push': {'packs': {'$each': [id_pack], '$slice': -5}}}
 
+        const user = await User.findByIdAndUpdate({_id: id_user}, update, {new: true})
+        
+        return res.json(user)        
+        //para pegar o ultimo elemento
+        //yourCollectionName.find({},{yourArrayFieldName:{$slice:-1}});.
     },
 
-    //rota para user logado cancelar plano ativo
+    //rota para user logado cancelar plano ativo (pop, remove do final)
     async deactivate (req, res){
+        const {id_user} = req.params
 
+        const update = {'$pop': {'packs': 1, '$slice': -5}}
+
+        const user = await User.findByIdAndUpdate({_id: id_user}, update, {new: true})
+        
+        return res.json(user)  
     },
     
     //checkin(pega o plano atual e muda o UsageTime do User de acordo com o valor do duration do package)
@@ -43,9 +54,24 @@ module.exports = {
     },
     
     //rota para exibir historico do user selecionado (Admin)
-    //rota para exibir historico do user logado (5 ultimos planos)
     async historic (req, res){
-    
+        const {id_user} = req.params
+
+        const historic_user = await User.findOne({_id: id_user}, 'packs') 
+
+        const packs_array = historic_user.packs
+
+        console.log(packs_array)
+
+        const a = packs_array[0]
+
+        //const a = Package.findOne({_id: packs_array[0]}, 'name')
+        console.log(a)
+
+        const pack_one = await Package.findOne({_id: a})
+
+        console.log(pack_one.name)
+
     },
     
     //criar novo pacote (Admin)

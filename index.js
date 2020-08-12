@@ -11,7 +11,7 @@ const app = express()
 //Conecção com o db
 mongoose.connect(
     'mongodb+srv://amandapascon:iRIxQgY3LjSA42lE@amandadatabase.2qmed.gcp.mongodb.net/test',
-    {useNewUrlParser: true, useUnifiedTopology: true}
+    {useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false }
 )
 requireDir('./database/models')
 
