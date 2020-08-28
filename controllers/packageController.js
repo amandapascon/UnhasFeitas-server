@@ -31,10 +31,6 @@ module.exports = {
         return res.json(user)  
     },
     
-    //checkin(pega o plano atual e muda o UsageTime do User de acordo com o valor do duration do package)
-    async checkin (req, res){
-    },
-    
     //rota para exibir o plano atual do user logado (posso pegar a descrição daqui)
     async curruntPack (req, res){
         const {id} = req.params        
@@ -58,19 +54,13 @@ module.exports = {
         const {id_user} = req.params
 
         const historic_user = await User.findOne({_id: id_user}, 'packs') 
+        console.log(historic_user.packs)
 
-        const packs_array = historic_user.packs
+        const packsNames = await Package.findOne({_id: historic_user.packs}).populate(historic_user)
 
-        console.log(packs_array)
+        console.log(packsNames)
 
-        const a = packs_array[0]
-
-        //const a = Package.findOne({_id: packs_array[0]}, 'name')
-        console.log(a)
-
-        const pack_one = await Package.findOne({_id: a})
-
-        console.log(pack_one.name)
+        //aaaa.findOne({_id: 'pinto'}).populate('packs')
 
     },
     

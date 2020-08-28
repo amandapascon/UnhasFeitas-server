@@ -21,6 +21,14 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: false,
     },
+    handUsage: {
+        type: Number,
+        required: false,
+    },
+    feetUsage: {
+        type: Number,
+        required: false,
+    },
     role: {
         type: String,
         required: false

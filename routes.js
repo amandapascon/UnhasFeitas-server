@@ -5,6 +5,7 @@ const userController = require('./controllers/userController')
 routes.get('/user', userController.show)
 routes.post('/user', userController.new)
 routes.put('/login', userController.login)
+routes.patch('/checkin', userController.checkin)
 
 const packageController = require('./controllers/packageController')
 routes.post('/package', packageController.new)
