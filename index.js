@@ -10,7 +10,7 @@ const app = express()
 
 //Conecção com o db
 mongoose.connect(
-    'mongodb+srv://amandapascon:iRIxQgY3LjSA42lE@amandadatabase.2qmed.gcp.mongodb.net/test',
+    'mongodb+srv://amandapascon:amanda123@amandadatabase.2qmed.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority',
     {useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false }
 )
 requireDir('./database/models')

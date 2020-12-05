@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const { all } = require('../routes')
 const { connect } = require('http2')
+const { Auth, AuthAdmin } = require('../middlewares/authenticate')
 
 const Package = mongoose.model('Package')
 const User = mongoose.model('User')

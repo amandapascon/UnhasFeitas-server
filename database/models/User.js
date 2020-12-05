@@ -17,15 +17,11 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         required: false,
     },
-    usageTime: {
+    remainingHands: {
         type: Number,
         required: false,
     },
-    handUsage: {
-        type: Number,
-        required: false,
-    },
-    feetUsage: {
+    remainingFeet: {
         type: Number,
         required: false,
     },
