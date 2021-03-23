@@ -13,15 +13,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    packs: {
+    usePacks: {
         type: Array,
         required: false,
     },
-    remainingHands: {
-        type: Number,
-        required: false,
-    },
-    remainingFeet: {
+    remainingPack: {
         type: Number,
         required: false,
     },

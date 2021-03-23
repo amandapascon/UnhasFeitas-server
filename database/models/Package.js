@@ -9,15 +9,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    handDuration: {
+    duration: {
         type: Number,
         required: true,
     },
-
-    feetDuration: {
-        type: Number,
-        required: true,
-    }
 })
 
 mongoose.model('Package', UserSchema)
