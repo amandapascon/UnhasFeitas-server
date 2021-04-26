@@ -13,7 +13,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    usePacks: {
+    packName:{
+        type: String,
+        required: false,
+    },
+    usageHistory: {
         type: Array,
         required: false,
     },
