@@ -1,19 +1,29 @@
 const express = require('express')
 const routes = express.Router()
 
-const userController = require('./controllers/userController')
-routes.get('/user', userController.show)
-routes.post('/user', userController.new)
-routes.put('/login', userController.login)
-routes.patch('/checkin', userController.checkin)
+const Controller = require('./controllers/Controller')
 
-const packageController = require('./controllers/packageController')
-routes.post('/package', packageController.new)
-routes.patch('/package/:id_user/:id_pack/activate', packageController.activate)
-routes.delete('/package/:id_user/deactivate', packageController.deactivate)
-routes.delete('/package/:id', packageController.del)
-routes.get('/package/:id_user/historic', packageController.historic)
-routes.get('/package', packageController.show)
-routes.get('/package/:id', packageController.curruntPack)
+routes.post('/user', Controller.newUser)
+routes.get('/user', Controller.showUser)
+routes.get('/user/:id', Controller.showUserId)
+routes.patch('/checkin/:id', Controller.checkinUser)
+routes.put('/login', Controller.loginUser)
+routes.delete('/user/:id', Controller.deleteUser)
+routes.get('/myaccount', Controller.my_account)
+
+routes.post('/payment', Controller.newPayment)
+routes.get('/payment', Controller.showPayment)
+routes.delete('/payment/:id', Controller.deletePayment)
+routes.patch('/payment', Controller.checkPayment)
+
+routes.post('/scheduling', Controller.newScheduling)
+routes.get('/scheduling', Controller.showScheduling)
+routes.get('/scheduling/:id', Controller.showSchedulingUser)
+routes.delete('/scheduling/:id', Controller.deleteScheduling)
+
+routes.post('/package', Controller.newPack)
+routes.get('/package', Controller.showPacks)
+routes.get('/package/:id', Controller.showPacks)
+routes.delete('/package/:id', Controller.deletePack)
 
 module.exports=routes

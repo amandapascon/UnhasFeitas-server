@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    packName:{
+    pack:{
         type: String,
         required: false,
     },
