@@ -5,6 +5,7 @@ const User = mongoose.model('User')
 const Package = mongoose.model('Package')
 const Payment = mongoose.model('Payment')
 const Scheduling = mongoose.model('Scheduling')
+const Time = mongoose.model('Time')
 
 module.exports = {
     //rota para criar novo usuario
@@ -29,21 +30,21 @@ module.exports = {
             return res.json('Erro')
 
     },
-    //falta atualizar o array[]
     //checkin(adm pega o plano atual atualiza o usageHistory e o remainingPack de acordo com o services
     async checkinUser (req, res){
-        const {services} = req.body
         const {id} = req.params
+
+        const scheduling = await Scheduling.findById({_id: id})
 
         let update = []
 
-        if(services[0] == "mão")
-            update = {$inc: {'remainingPack' : -1}, '$push': {'usageHistory': {'$each': [services[0]]}}}
+        if(scheduling.services == "mão")
+            update = {$inc: {'remainingPack' : -1}, '$push': {'usageHistory': {'$each': [scheduling.services]}}}
         else
-        update = {$inc: {'remainingPack' : -2}, '$push': {'usageHistory': {'$each': [services[0]]}}}
+        update = {$inc: {'remainingPack' : -2}, '$push': {'usageHistory': {'$each': [scheduling.services]}}}
             
 
-        const user = await User.findByIdAndUpdate({_id: id}, update, {new: true})
+        const user = await User.findByIdAndUpdate({_id: scheduling.user}, update, {new: true})
 
         return res.json(user) 
     },
@@ -84,7 +85,8 @@ module.exports = {
 
     //rota para solicitacao de pagamento
     async newPayment(req, res){
-        const payment = await Payment.create(req.body)
+        const {id_user, id_pack} = req.params
+        const payment = await Payment.create({user: id_user, pack: id_pack})
         return res.json(payment)
     },
     //rota para exibir todas as solicitacoes de pagamento (Admin)
@@ -94,28 +96,43 @@ module.exports = {
     },
     //rota para exibir excluir solicitacoes de pagamento(Admin)
     async deletePayment(req, res){
-        const user = req.body
-        const payment = await Payment.findOneAndDelete({user: user})
+        const {id} = req.params
+        const payment = await Payment.findOneAndDelete({_id: id})
         return res.json(payment)
     },
     //rota para confirmar pagamento (coloca aquele pacote no user)
     async checkPayment(req, res){
-        const {user_id, pack} = req.body
+        const {id} = req.params
 
-        const package = await Package.findById({_id:pack})
+        const payment = await Payment.findById({_id:id});
+
+        const package = await Package.findById({_id:payment.pack})
 
         let update = []
 
-        update = {$set: {'pack': pack, 'usageHistory': [], 'remainingPack':package.duration}}
+        update = {$set: {'pack': package._id, 'usageHistory': [], 'remainingPack':package.duration}}
 
-        const user = await User.findByIdAndUpdate({_id: user_id}, update, {new: true})
+        const user = await User.findByIdAndUpdate({_id: payment.user}, update, {new: true})
 
         return res.json(user) 
     },
 
     //rota para novo agendamento
     async newScheduling(req, res){
-        const scheduling = await Scheduling.create(req.body)
+        const {id} = req.params
+        const {date, services} = req.body
+        const scheduling = await Scheduling.create({user: id, date: date, services: services})
+        
+        return res.json(scheduling)
+        
+        let update = []
+
+        update = {$set: {'available': false}}
+
+        const time = await Time.find({time: date})
+
+        await Time.findByIdAndUpdate({_id: time._id}, update, {new: true})
+
         return res.json(scheduling)
     },
     //rota para exibir todos agendamentos (Admin)
@@ -161,5 +178,27 @@ module.exports = {
             return res.json('Ok')
         else
             return res.json('Erro')
+    },    
+
+    //criar novo horario (Admin)
+    async newTime(req, res){
+        const time = await Time.create(req.body)
+        return res.json(time)
+    },
+    //rota para exibir todos os horarios cadastrados
+    async showTimes (req, res){
+        const time = await Time.find()
+        return res.json(time)
+    },
+    //deletar horario (Admin)
+    async deleteTime(req, res){
+        const {id} = req.params
+        const time = await Time.findByIdAndDelete({_id: id})
+
+        if(time)
+            return res.json('Ok')
+        else
+            return res.json('Erro')
     }    
+    
 }

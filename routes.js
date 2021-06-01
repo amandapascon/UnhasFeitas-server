@@ -11,19 +11,22 @@ routes.put('/login', Controller.loginUser)
 routes.delete('/user/:id', Controller.deleteUser)
 routes.get('/myaccount', Controller.my_account)
 
-routes.post('/payment', Controller.newPayment)
+routes.post('/user/:id_user/package/:id_pack/payment', Controller.newPayment)
 routes.get('/payment', Controller.showPayment)
 routes.delete('/payment/:id', Controller.deletePayment)
-routes.patch('/payment', Controller.checkPayment)
+routes.patch('/payment/:id', Controller.checkPayment)
 
-routes.post('/scheduling', Controller.newScheduling)
+routes.post('/user/:id/scheduling', Controller.newScheduling)
 routes.get('/scheduling', Controller.showScheduling)
 routes.get('/scheduling/:id', Controller.showSchedulingUser)
 routes.delete('/scheduling/:id', Controller.deleteScheduling)
 
 routes.post('/package', Controller.newPack)
 routes.get('/package', Controller.showPacks)
-routes.get('/package/:id', Controller.showPacks)
 routes.delete('/package/:id', Controller.deletePack)
+
+routes.post('/time', Controller.newTime)
+routes.get('/time', Controller.showTimes)
+routes.delete('/time/:id', Controller.deleteTime)
 
 module.exports=routes
