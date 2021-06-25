@@ -1,9 +1,20 @@
 const express = require('express')
 const routes = express.Router()
 
+const userController = require('./controllers/userController')
+
+routes.post('/user', userController.newUser)
+routes.get('/users', userController.showUsers)
+
+
+
+
+
+
+
 const Controller = require('./controllers/Controller')
 
-routes.post('/user', Controller.newUser)
+//routes.post('/user', Controller.newUser)
 routes.get('/user', Controller.showUser)
 routes.get('/user/:id', Controller.showUserId)
 routes.patch('/checkin/:id', Controller.checkinUser)
