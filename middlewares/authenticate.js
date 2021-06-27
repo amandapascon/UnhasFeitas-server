@@ -1,14 +1,14 @@
-// TODO: rewrite import as ES6
-const jwt = require('jsonwebtoken')
+const jsonwebtoken = require('jsonwebtoken')
 
-// TODO: rewrite export as ES6
-//export async function Auth(request, response, next) {
+//autenticação de usuário
 exports.Auth = async (request, response, next) => {
-  const token = request.headers.authorization
+  const authToken = request.headers.authorization;
 
-  jwt.verify(token, process.env.SECRET, (err, data) => {
+  const [, token] = authToken.split(" ");
+
+  jsonwebtoken.verify(token, "2582cf5038bbd26c8bbf359a25de52e7", (err, data) => {
     if (err) {
-      return response.json({ err: 'auth' })
+      return response.status(401).json({ err: 'auth' })
     } else {
       request.user = data
       return next()
@@ -16,26 +16,18 @@ exports.Auth = async (request, response, next) => {
   })
 }
 
-//export async function AuthAdmin(request, response, next) {
+//autenticação de administrador 
 exports.AuthAdmin = async (request, response, next) => {
-  const token = request.headers.authorization
+  const authToken = request.headers.authorization;
 
-  jwt.verify(token, process.env.SECRET, (err, data) => {
-    if (err || data.role != 'admin') {
-      return response.json({ err: 'auth' })
+  const [, token] = authToken.split(" ");
+
+  jsonwebtoken.verify(token, "2582cf5038bbd26c8bbf359a25de52e7", (err, data) => {
+    if (err || data.role != 'true') {
+      return response.status(401).json({ err: 'auth' })
     } else {
       request.user = data
       return next()
     }
-  })
-}
-
-//export async function AuthPermissive(request, response, next) {
-exports.AuthPermissive = async (request, response, next) => {
-  const token = request.headers.authorization
-
-  jwt.verify(token, process.env.SECRET, (err, data) => {
-    request.user = err ? false : data
-    return next()
   })
 }
