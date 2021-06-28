@@ -4,14 +4,22 @@ const routes = express.Router()
 const authenticate = require('./middlewares/authenticate')
 
 const userController = require('./controllers/userController')
+const packController = require('./controllers/packageController')
+const paymentController = require('./controllers/paymentController')
 
 //rotas
 routes.post('/user', userController.newUser)
 routes.put('/login', userController.loginUser)
-routes.get('/users', userController.showUsers)
-routes.get('/users/:id', authenticate.Auth, userController.showUser)
+routes.get('/user', authenticate.Auth, userController.showUser)
+routes.get('/users', authenticate.AuthAdmin, userController.showUsers)
 
+routes.post('/package', authenticate.AuthAdmin, packController.newPack)
+routes.delete('/package/:id', authenticate.AuthAdmin, packController.deletePack)
+routes.get('/package', authenticate.Auth, packController.showPacks)
 
+routes.post('/payment/package/:id_pack', authenticate.Auth, paymentController.newPayment)
+routes.delete('/payment/:id_payment', authenticate.Auth, paymentController.deletePayment)
+routes.patch('/payment/:id_payment', authenticate.AuthAdmin, paymentController.checkPayment)
 
 
 

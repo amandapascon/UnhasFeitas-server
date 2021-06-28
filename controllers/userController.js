@@ -41,7 +41,7 @@ module.exports = {
             }
             //gerar token
             const token = jsonwebtoken.sign({
-                phone: userFound.phone,
+                id: userFound._id,
                 role: userFound.role
             }, "2582cf5038bbd26c8bbf359a25de52e7", {
                 subject: userFound.phone,
@@ -54,25 +54,25 @@ module.exports = {
 
     //show an user
     async showUser(req, res){
-        const authToken = req.headers.authorization;
-        const [, token] = authToken.split(" ");
-        jsonwebtoken.verify(token, "2582cf5038bbd26c8bbf359a25de52e7", function(err, decoded) {
-            if (err)
-                return res.json('Erro')
-            
-            //next()
-            return res.json(decoded.phone)
-            //console.log(decoded)
-          })
-    },    
+        const user = await User.findById({_id: req.user.id})
 
-    //delete user
+        if(!user){
+            return res.status(404).json({err: 'not found'})
+        }
+
+        return res.json(user)
+        
+    },    
 
     //show all users (admin)
     async showUsers(req, res){
         const user = await User.find()
         return res.json(user)
     }  
+
+    //delete user
+
+    
 
     //checkin (admin) -> change usageHistory and remainingPack
 

@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
     pack:{
         type: String,
         required: false,
+        default: null,
     },
     usageHistory: {
         type: Array,
