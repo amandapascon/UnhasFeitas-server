@@ -68,12 +68,16 @@ module.exports = {
     async showUsers(req, res){
         const user = await User.find()
         return res.json(user)
-    }  
+    },
 
-    //delete user
-
+    //delete user    
+    async deleteUser(req, res){
+        const user = await User.findByIdAndDelete({_id: req.user.id})
+        if(user)
+            return res.status(200).json('Ok')
+        else
+            return res.status(404).json('Erro')
+    }
     
-
-    //checkin (admin) -> change usageHistory and remainingPack
 
 }
