@@ -7,6 +7,7 @@ const userController = require('./controllers/userController')
 const packController = require('./controllers/packageController')
 const paymentController = require('./controllers/paymentController')
 const timeController = require('./controllers/timeController')
+const schedulingController = require('./controllers/schedullingController')
 
 //rotas
 routes.post('/user', userController.newUser)
@@ -27,6 +28,10 @@ routes.patch('/payment/:id_payment', authenticate.AuthAdmin, paymentController.c
 routes.post('/time', authenticate.AuthAdmin, timeController.newTime)
 routes.get('/time', authenticate.Auth, timeController.showTime)
 routes.delete('/time/:id_time', authenticate.AuthAdmin, timeController.deleteTime)
+
+routes.post('/scheduling', authenticate.Auth, schedulingController.newScheduling)
+routes.get('/schedulings', authenticate.AuthAdmin, schedulingController.showScheduling)
+routes.get('/scheduling', authenticate.AuthAdmin, schedulingController.schedulingUser)
 
 
 
