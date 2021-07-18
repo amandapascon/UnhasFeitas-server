@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         required: false,
     },
+    dateHistory:{
+        type: Array,
+        required: false,
+    },
     remainingPack: {
         type: Number,
         required: false,

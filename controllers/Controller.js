@@ -42,7 +42,6 @@ module.exports = {
             update = {$inc: {'remainingPack' : -1}, '$push': {'usageHistory': {'$each': [scheduling.services]}}}
         else
         update = {$inc: {'remainingPack' : -2}, '$push': {'usageHistory': {'$each': [scheduling.services]}}}
-            
 
         const user = await User.findByIdAndUpdate({_id: scheduling.user}, update, {new: true})
 
